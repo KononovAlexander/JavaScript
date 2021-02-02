@@ -15,45 +15,65 @@ let amount1 = +prompt('Во сколько это обойдется?','0');
 let expenses2 = prompt('Введите обязательную статью расходов?');
 let amount2 = +prompt('Во сколько это обойдется?','0');
 
-let budgetMonth = money - (amount1 + amount2);
-let missionTime = mission / budgetMonth;
-let budgetDay = budgetMonth / 30;
+
+// let missionTime = mission / budgetMonth;
+let accumulatedMonth = getAccumulatedMonth(money, getExpensesMonth(amount1, amount2));
+let budgetDay = accumulatedMonth / 30;
 
 
 
 
 
 
-console.log('money: ' + typeof money);
-console.log('income: ' + typeof income);
-console.log('deposit: ' + typeof deposit);
+console.log('money: ' + showTypeOf(money));
+console.log('income: ' + showTypeOf(income));
+console.log('deposit: ' + showTypeOf(deposit));
 
 console.log(addExpenses.length);
 console.log('Период равен ' + period + ' месяцев');
 console.log('Цель заработать ' + mission + ' юаней');
-console.log('addExpenses: ', addExpenses);
 console.log(addExpenses.toLowerCase().split(', '));
 
-console.log('Бюджет на месяц: ', budgetMonth);
-console.log('Цель будет достигнута за ' + Math.ceil(missionTime) + ' месяцев');
 
-
+console.log('Бюджет на месяц: ', accumulatedMonth);
+console.log('Цель будет достигнута за ' + Math.ceil(getTargetMonth(mission, accumulatedMonth)) + ' месяцев');
 console.log('Бюджет на день: ' + Math.floor(budgetDay));
+console.log( getStatusIncome(budgetDay));
 
-    if(budgetDay >= 1200){
+function showTypeOf(a){
+    return typeof a;
+}
 
-        console.log('У вас высокий уровень дохода');
 
-    }else if( budgetDay < 1200 && budgetDay >= 600){
+ function getExpensesMonth(a, b){
+     return a + b;
+ }
 
-        console.log('У вас средний уровень дохода');
+ function getAccumulatedMonth(a, b){
+     return a - b;
+ }
 
-    }else if(budgetDay >= 0 && budgetDay < 600){
+ function getTargetMonth(a, b){
+     return a / b;
+ }
 
-        console.log('К сожалению у вас уровень дохода ниже среднего');
 
-    }else if(budgetDay < 0){
-          console.log('Что то пошло не так!');
+ function getStatusIncome(a){
+    if(a >= 1200){
+
+        return 'У вас высокий уровень дохода';
+
+    }else if( a < 1200 && a >= 600){
+
+        return 'У вас средний уровень дохода';
+
+    }else if(a>= 0 && a < 600){
+
+        return 'К сожалению у вас уровень дохода ниже среднего';
+
+    }else if(a < 0){
+        return 'Что то пошло не так!';
     }
+}
 
 
