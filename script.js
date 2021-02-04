@@ -1,37 +1,76 @@
 'use strict';
 
-let money = +prompt('Ваш месячный доход?','0');
+let isNumber = function(n){
+  return !isNaN(parseFloat(n)) && isFinite(n);
+};
+
+let money;
 let income = 'Фриланс';
 let period = 8;
 let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
 let deposit = confirm('Есть ли у вас депозит в банке?');
 let mission = 100000;
-let expenses1 = prompt('Введите обязательную статью расходов?'); 
-let amount1 = +prompt('Во сколько это обойдется?','0');
-let expenses2 = prompt('Введите обязательную статью расходов?');
-let amount2 = +prompt('Во сколько это обойдется?','0');
-let accumulatedMonth = getAccumulatedMonth(money, getExpensesMonth(amount1, amount2));
-let budgetDay = accumulatedMonth / 30;
+let expenses = [];
+
+let start = function(){
+
+    do{
+        money = prompt('Ваш месячный доход?');
+
+    }
+
+    while (!isNumber(money));
+};
+start();
 
 
-function showTypeOf(a){
-    return typeof a;
+let showTypeOf = function (data){
+    
+    console.log(data, typeof(data));
+};
+
+showTypeOf(money);
+showTypeOf(income);
+showTypeOf(deposit);
+
+let getExpensesMonth = function(){
+    let sum = 0;
+
+    for(let i = 0; i < 2; i++){
+
+        expenses[i] = prompt('Введите обязательную статью расходов?');
+
+        do{
+
+            sum = prompt('Во сколько это обойдется?');
+    
+        }
+        while (!isNumber(sum));
+        
+        sum = Number(sum);
+        sum += sum;
+    }
+
+    console.log('sum: ', sum);
+    console.log('sum: ', typeof (sum));
+    return sum;
+};
+
+function getAccumulatedMonth(a, b){
+    console.log(a);
+    console.log(typeof (a));
+    return a - b;
+  
 }
-
- function getExpensesMonth(a, b){
-     return a + b;
- }
-
- function getAccumulatedMonth(a, b){
-     return a - b;
- }
+let accumulatedMonth = getAccumulatedMonth(money, getExpensesMonth());
+let budgetDay = accumulatedMonth / 30;
 
  function getTargetMonth(a, b){
      return a / b;
  }
 
 
- function getStatusIncome(a){
+ let getStatusIncome = function(a){
     if(a >= 1200){
 
         return 'У вас высокий уровень дохода';
@@ -45,13 +84,9 @@ function showTypeOf(a){
         return 'К сожалению у вас уровень дохода ниже среднего';
 
     }else if(a < 0){
-        return 'Что то пошло не так!';
+        return 'Цель не будет достигнута';
     }
 }
-
-console.log('money: ' + showTypeOf(money));
-console.log('income: ' + showTypeOf(income));
-console.log('deposit: ' + showTypeOf(deposit));
 
 console.log(addExpenses.length);
 console.log('Период равен ' + period + ' месяцев');
