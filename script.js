@@ -4,7 +4,7 @@ let money;
 let start = function(){
 
     do{
-        money = prompt('Ваш месячный доход?');
+        money = +prompt('Ваш месячный доход?');
 
     }
 
@@ -27,8 +27,8 @@ let appData = {
     budget: money,
     budgetDay: 0,
     budgetMonth: 0,
-    
     expensesMonth: 0,
+
     asking: function(){
         
         appData.addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
@@ -59,7 +59,7 @@ let appData = {
     getBudget: function(){
 
         appData.budgetMonth = appData.budget - appData.expensesMonth;
-        appData.budgetDay = appData.budgetMonth / 30;  
+        appData.budgetDay = Math.floor(appData.budgetMonth / 30);  
 
     },
     
@@ -96,5 +96,13 @@ console.log('Цель будет достигнута за ' + Math.ceil(appData
 
 console.log( appData.getStatusIncome());
 
+console.log('Наша программа включает в себя данные:');
+
+for(let key in appData){
+console.log(key, appData[key]);
+}
 
 
+
+
+ 
