@@ -48,10 +48,19 @@ let appData = {
         }
         
         appData.addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
+        appData.addExpenses = appData.addExpenses.split(',');
+        let string = [];
+
         
-        appData.addExpenses = appData.addExpenses.replace(/(^|\,)\S/g,
-         function(a) {return a.toUpperCase();}).split(',').join(', ');
-     
+        for(let key in appData.addExpenses){
+            
+            string[key] = appData.addExpenses[key].trim().replace(/(^|\,)\S/g,
+            function(a) {return a.toUpperCase();});
+
+        }
+                    //    массив в строку
+        appData.addExpenses =  string.join(', ');
+ 
         appData.deposit = confirm('Есть ли у вас депозит в банке?');
         
         for(let i = 0; i < 2; i++){ 
@@ -136,7 +145,7 @@ let appData = {
 
 appData.asking();
 
-console.log(typeof appData.addExpenses);
+console.log(appData.addExpenses);
 
 console.log(' Расходы за месяц: ',  appData.expensesMonth);
 
