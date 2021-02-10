@@ -1,25 +1,25 @@
 'use strict';
 
 let money;
-let count = document.getElementById('start');
-let income = document.getElementsByTagName('button')[0];
-let expenses = document.getElementsByTagName('button')[1];
-let depositCheck = document.querySelector('#deposit-check');
-let addIncomeItem1 = document.querySelectorAll('.additional_income-item')[0];
-let addIncomeItem2 = document.querySelectorAll('.additional_income-item')[1];
-let budgMonthValue = document.getElementsByTagName('.budget_month-value');
-let budgDayValue = document.getElementsByTagName('.budget_day-value');
-let expMonthValue = document.getElementsByTagName('.expenses_month-value');
-let addIncomeValue = document.getElementsByTagName('.additional_income-value');
-let addExpensesValue = document.getElementsByTagName('.additional_expenses-value');
-let incomePeriodValue = document.getElementsByTagName('.income_period-value');
-let targetMonthValue = document.getElementsByTagName('.target_month-value');
-let salaryMonth = document.querySelector('.salary-amount');
-let incomeTitle = document.querySelector('.income-title');
-let incomeAmount = document.querySelector('.income-amount');
-let addlExpensesItem = document.querySelector('.additional_expenses-item');
-let getDeposit = document.querySelector('.target_amount');
-let periodRange = document.querySelector('[type ="range"]');
+const count = document.getElementById('start');
+const plusIncome = document.getElementsByTagName('button')[0];
+const plusExpenses = document.getElementsByTagName('button')[1];
+const depositCheck = document.querySelector('#deposit-check');
+const addIncomeItems = document.querySelectorAll('.additional_income-item');
+const expensesTitle = document.querySelector('expenses-title');
+const expensesValue = document.querySelector('expenses-value');
+const budgMonthValue = document.getElementsByTagName('.budget_month-value');
+const budgDayValue = document.getElementsByTagName('.budget_day-value');
+const addIncomeValue = document.getElementsByTagName('.additional_income-value');
+const addExpensesValue = document.getElementsByTagName('.additional_expenses-value');
+const incomePeriodValue = document.getElementsByTagName('.income_period-value');
+const targetMonthValue = document.getElementsByTagName('.target_month-value');
+const salaryMonth = document.querySelector('.salary-amount');
+const incomeTitle = document.querySelector('.income-title');
+const incomeAmount = document.querySelector('.income-amount');
+const addlExpensesItem = document.querySelector('.additional_expenses-item');
+const getDeposit = document.querySelector('.target_amount');
+const periodRange = document.querySelector('[type ="range"]');
 
 let start = function(){
 
