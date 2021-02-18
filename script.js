@@ -50,9 +50,6 @@ let appData = {
 
     start: function(){
  
-        console.log('this.incomeMonth: ', appData.incomeMonth);
-        console.log(appData);
-        
         this.getExpenses();
         this.getIncome();
         
@@ -64,28 +61,81 @@ let appData = {
         
         this.getBudget();
         this.showResult();
-        this.inputToggler();
+        this.inputToggler(inputs);
         start.style.display = "none";
         cancel.style.display = "block";
         
     },
+
+
     
     reset: function(){
         
+        this.clearElements();
         this.inputToggler();
-        this.clearInputs();
+        // this.inputToggler(incomeItems);
+        // this.inputToggler(expensesItems);
+        this.clearInputs(inputs);
+        this.clearInputs(incomeItems);
+        this.clearInputs(expensesItems);
+        this.removeInputs(incomeItems);
+        this.removeInputs(expensesItems);
 
     },
-    clearInputs: function(){
-        inputs.forEach(function(item){
+
+    clearElements: function(){
+        for(let key in this.income){
+            delete this.income[key];
+        }
+        for(let key in this.expenses){
+            delete this.expenses[key];
+        }
+        
+        this.expenses = {};
+        this.addIncome.length = 0;
+        this.addExpenses.length = 0;
+        this.incomeMonth = 0;
+        this.expensesMonth = 0;
+        this.deposit = false;
+        this.percentDeposit = 0;
+        this.moneyDeposit = 0;
+        this.budget = 0;
+        this.budgetDay = 0;
+        this.budgetMonth = 0;
+        console.log(this.income);
+        console.log( this.expenses);
+        
+    },
+
+    removeInputs: function(arr){
+        if(arr.length === 1){
+
+            return;
+
+         }else if( arr.length > 1){
+
+             for(let i = 1; i < arr.length; i++){
+                 arr[i].parentElement.removeChild(arr[i]);
+            }
+        }
+
+        plusIncome.style.display = 'block';
+        plusExpenses.style.display = 'block';
+
+    },
+
+    clearInputs: function(arr){
+        arr.forEach(function(item){
             item.value = '';
         });
     },
+
     inputToggler: function(){
 
         inputs.forEach(function(item){
             item.toggleAttribute('disabled');
         });
+
         plusIncome.toggleAttribute('disabled');
         plusExpenses.toggleAttribute('disabled');
         depositCheck.toggleAttribute('disabled');
@@ -104,6 +154,8 @@ let appData = {
         addIncomeValue.value = this.addIncome.join(', ');
         targetMonthValue.value = this.getTargetMonth(); 
         this.changeIncomePeriodValue();
+        console.log(this.income);
+        console.log( this.expenses);
         
     },
 
@@ -112,6 +164,7 @@ let appData = {
         let cloneIncomeItem = incomeItems[0].cloneNode(true);
         incomeItems[0].parentNode.insertBefore(cloneIncomeItem, plusIncome);
         incomeItems = document.querySelectorAll('.income-items');
+        console.log(' incomeItems: ',  incomeItems);
 
         if(incomeItems.length === 3){
             plusIncome.style.display = 'none';
@@ -119,13 +172,17 @@ let appData = {
     },
 
     addExpensesBlock: function(){
-     
+         
          let cloneExpensesItem = expensesItems[0].cloneNode(true);
          expensesItems[0].parentNode.insertBefore(cloneExpensesItem, plusExpenses);
          expensesItems = document.querySelectorAll('.expenses-items');
+         console.log('expensesItems: ', expensesItems);
+         
 
          if(expensesItems.length === 3){
             plusExpenses.style.display = 'none';
+            
+
          }
     },
 
@@ -153,7 +210,7 @@ let appData = {
             if(itemExpenses !== '' && cashExpenses !== ''){
 
                 appData.expenses[itemExpenses] = cashExpenses;
-                  
+                console.log(this);
             }
         });
     },
@@ -165,6 +222,7 @@ let appData = {
             item = item.trim();
            if(item !== ''){
                appData.addExpenses.push(item);
+               
 
            }
         });
@@ -176,6 +234,7 @@ let appData = {
           let itemValue = item.value.trim();
           if(itemValue !== ''){
               appData.addIncome.push(itemValue);
+              
           }
 
         });
@@ -237,18 +296,19 @@ let appData = {
     //     }
     // },
 
-    getInfoDeposit: function(){
-        if(appData.deposit){
-            do{
-            appData.percentDeposit = prompt('Какой у вас годовой процент?', '1');
-            }
-            while(isNaN(appData.percentDeposit) || appData.percentDeposit ==='' || appData.percentDeposit === null);
-            do{
-            appData.moneyDeposit = prompt('Какая сумма заложена?', 1000);
-            }
-            while(isNaN(appData.moneyDeposit) || appData.moneyDeposit ==='' || appData.moneyDeposit === null);
-        }
-    },
+    // getInfoDeposit: function(){
+    //     if(appData.deposit){
+    //         do{
+    //         appData.percentDeposit = prompt('Какой у вас годовой процент?', '1');
+    //         }
+    //         while(isNaN(appData.percentDeposit) || appData.percentDeposit ==='' || appData.percentDeposit === null);
+    //         do{
+    //         appData.moneyDeposit = prompt('Какая сумма заложена?', 1000);
+    //         }
+    //         while(isNaN(appData.moneyDeposit) || appData.moneyDeposit ==='' || appData.moneyDeposit === null);
+    //     }
+
+    // },
     getPeriodValue: function(){
 
         let periodValue = periodSelect.value;
@@ -264,6 +324,7 @@ let appData = {
     changeIncomePeriodValue: function(){
 
         incomePeriodValue.value = appData.calcPeriod();
+
     },
      
 };
@@ -283,6 +344,7 @@ start.addEventListener('click', function(){
 
 cancel.addEventListener('click', function(){
     appData.reset();
+    start.setAttribute('disabled', 'disabled');
 });
 
 periodSelect.addEventListener('input', appData.getPeriodValue);
