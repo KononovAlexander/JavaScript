@@ -34,30 +34,33 @@ let isNumber = function(n){
 
 let appData = {
     income: {},
-    addIncome: [],
     expenses: {},
+    addIncome: [],
     addExpenses: [],
     incomeMonth: 0,
+    expensesMonth: 0,
     deposit: false,
     percentDeposit: 0,
     moneyDeposit: 0,
     budget: 0,
     budgetDay: 0,
     budgetMonth: 0,
-    expensesMonth: 0,
     
 
 
     start: function(){
  
-        this.budget = +salaryAmount.value + +incomeAmount.value;
-
+        console.log('this.incomeMonth: ', appData.incomeMonth);
+        console.log(appData);
+        
         this.getExpenses();
         this.getIncome();
         
+        this.getIncomeMonth();
         this.getExpensesMonth(); 
         this.getAddIncome();
         this.getAddExpenses();
+        this.budget = +salaryAmount.value + this.incomeMonth;
         
         this.getBudget();
         this.showResult();
@@ -81,8 +84,11 @@ let appData = {
     inputToggler: function(){
 
         inputs.forEach(function(item){
-            item.toggleAttribute('readonly');
+            item.toggleAttribute('disabled');
         });
+        plusIncome.toggleAttribute('disabled');
+        plusExpenses.toggleAttribute('disabled');
+        depositCheck.toggleAttribute('disabled');
 
         start.style.display = (start.style.display === 'none') ? '' : 'none';
         cancel.style.display = (cancel.style.display === 'block') ? '' : 'block';
@@ -153,6 +159,7 @@ let appData = {
     },
 
     getAddExpenses: function(){
+
         let addExpenses = addExpensesItem.value.split(',');
         addExpenses.forEach(function(item){
             item = item.trim();
@@ -164,7 +171,7 @@ let appData = {
     },
 
     getAddIncome: function(){
-        //  let addIncome = 
+    
         addIncomeItems.forEach(function(item){
           let itemValue = item.value.trim();
           if(itemValue !== ''){
@@ -172,8 +179,19 @@ let appData = {
           }
 
         });
-    }, 
-   
+    },
+
+     getIncomeMonth: function(){
+
+        let sum = 0;
+
+        for(let key in this.income){
+
+            sum += Number(this.income[key]);
+        }
+        this.incomeMonth = sum;
+     },   
+    
      getExpensesMonth: function(){
 
          let sum = 0;
@@ -184,6 +202,7 @@ let appData = {
           }                
 
           this.expensesMonth = sum;
+    
 
     },
     
@@ -200,23 +219,23 @@ let appData = {
 
     },
     
-    getStatusIncome: function(){
-        if(appData.budgetDay >= 1200){
+    // getStatusIncome: function(){
+    //     if(appData.budgetDay >= 1200){
             
-            return 'У вас высокий уровень дохода';
+    //         return 'У вас высокий уровень дохода';
             
-        }else if( appData.budgetDay < 1200 && appData.budgetDay >= 600){
+    //     }else if( appData.budgetDay < 1200 && appData.budgetDay >= 600){
             
-            return 'У вас средний уровень дохода';
+    //         return 'У вас средний уровень дохода';
             
-        }else if(appData.budgetDay >= 0 && appData.budgetDay < 600){
+    //     }else if(appData.budgetDay >= 0 && appData.budgetDay < 600){
             
-            return 'К сожалению у вас уровень дохода ниже среднего';
+    //         return 'К сожалению у вас уровень дохода ниже среднего';
             
-        }else if(appData.budgetDay < 0){ 
-            return 'Цель не будет достигнута';
-        }
-    },
+    //     }else if(appData.budgetDay < 0){ 
+    //         return 'Цель не будет достигнута';
+    //     }
+    // },
 
     getInfoDeposit: function(){
         if(appData.deposit){
