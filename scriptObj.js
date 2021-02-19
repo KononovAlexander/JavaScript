@@ -122,14 +122,14 @@ class AppData {
     }
 
     clearInputs(arr){
-        arr.forEach(function(item){
+        arr.forEach((item) => {
             item.value = '';
         });
     }
 
     inputToggler(arr){
 
-        arr.forEach(function(item){
+        arr.forEach((item) => {
             item.toggleAttribute('disabled');
         });
 
@@ -180,7 +180,7 @@ class AppData {
 
     getIncome(arr){
 
-    incomeItems.forEach(function(item){
+    incomeItems.forEach((item) => {
 
        const itemIncome = item.querySelector('.income-title').value;
        const cashIncome = item.querySelector('.income-amount').value;
@@ -197,7 +197,7 @@ class AppData {
 
     getExpenses(arr){
 
-    expensesItems.forEach(function(item){
+    expensesItems.forEach((item) => {
 
         const itemExpenses = item.querySelector('.expenses-title').value;
         const cashExpenses = item.querySelector('.expenses-amount').value;
@@ -214,7 +214,7 @@ class AppData {
 
         const addExpenses = addExpensesItem.value.split(',');
 
-           addExpenses.forEach(function(item){
+           addExpenses.forEach((item) => {
                  item = item.trim();
 
             if(item !== ''){
@@ -226,7 +226,7 @@ class AppData {
 
     getAddIncome(arr){
     
-        addIncomeItems.forEach(function(item){
+        addIncomeItems.forEach((item) => {
           const itemValue = item.value.trim();
           if(itemValue !== ''){
               arr.push(itemValue);
@@ -289,7 +289,7 @@ class AppData {
     eventsListeners(){
         const _this = this;
         
-        salaryAmount.addEventListener('input', function(){
+        salaryAmount.addEventListener('input', () => {
     
             if(salaryAmount.value){
 
@@ -298,11 +298,11 @@ class AppData {
         });
         
             
-        start.addEventListener('click', function(){
+        start.addEventListener('click', () => {
             _this.getWork();  
         });
         
-        cancel.addEventListener('click', function(){
+        cancel.addEventListener('click', () => {
             start.setAttribute('disabled', 'true');
             
             _this.reset();
@@ -314,7 +314,7 @@ class AppData {
 
         periodSelect.addEventListener('input', this.changePeriodNumber);
         
-        periodSelect.addEventListener('input', function(){
+        periodSelect.addEventListener('input', () => {
           
         incomePeriodValue.value = _this.calcPeriod();
         });
