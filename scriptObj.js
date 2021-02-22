@@ -80,6 +80,8 @@ class AppData {
         this.deleteInputs(incomeItems);
         this.deleteInputs(expensesItems);
         this.inputToggler(inputs);
+        depositCheck.checked = false;
+        this.depositHandler();
         
 
     }
