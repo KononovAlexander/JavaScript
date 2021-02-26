@@ -81,8 +81,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 
                 left += 25;
                 popupContent.style.left = `${left}px`;
-                console.log('left: ', left);
-                console.log('left: ',typeof left);
                 
                 if(left >= (40 + window.innerWidth - popupContent.offsetWidth) / 2){
                     
@@ -118,3 +116,4 @@ window.addEventListener('DOMContentLoaded', () => {
     
     togglePopUp();
 
+});
