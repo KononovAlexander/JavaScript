@@ -54,9 +54,19 @@ window.addEventListener('DOMContentLoaded', () => {
             menu.classList.toggle('active-menu');
         };      
         
-        btnMenu.addEventListener('click', handlerMenu);
+        // btnMenu.addEventListener('click', handlerMenu);
+        btnMenu.addEventListener('click', (event) => {
+            let target = event.target;
+            console.log('target: ', target);
+            handlerMenu();
+            if(target.classList.contains('close-btn')){
+                handlerMenu();
+
+            }
+
+        });
         
-        btnClose.addEventListener('click', handlerMenu);
+        // btnClose.addEventListener('click', handlerMenu);
         
         menuItems.forEach((elem) => elem.addEventListener('click', handlerMenu));
         
@@ -70,10 +80,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const togglePopUp = () => {
         const popup = document.querySelector('.popup'),
         popupContent = popup.querySelector('.popup-content'),
-        popupBtn = document.querySelectorAll('.popup-btn'),
-        popupClose = document.querySelector('.popup-close');
-        
-        
+        popupBtn = document.querySelectorAll('.popup-btn');
+
+                
         function getAnimation(){
             let left = window.innerWidth - window.innerWidth;
             popupContent.style.left = `${left}px`;
@@ -107,14 +116,24 @@ window.addEventListener('DOMContentLoaded', () => {
             
         });
         
-        popupClose.addEventListener('click', () => {
-            popup.style.display = 'none';
-            
+        popup.addEventListener('click', (event) => {
+            let target = event.target;
+            if(target.classList.contains('popup-close')){
+                
+                popup.style.display = 'none';
+                }else{
+
+                    target = target.closest('.popup-content');
+                    if(!target){
+                        popup.style.display = 'none';
+                    }
+                }
         });
         
     };
     
     togglePopUp();
+
     //  =====================scroll==========================
 
     const pageScroll = () => {
@@ -126,14 +145,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 let target = link.getAttribute('href').substring(1);
                 const scrollTo = document.getElementById(target);
+                console.log('scrollTo: ', scrollTo);
 
-                const elemPosition = scrollTo.getBoundingClientRect().top;
+               if(scrollTo !== null){ 
+                   const elemPosition = scrollTo.getBoundingClientRect().top;
 
                 window.scrollBy({
                     top: elemPosition,
                     behavior: "smooth"
-                });
-
+                });}else{
+                    return;
+                }
 
             });
         }));
@@ -141,4 +163,47 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     pageScroll();
+
+    
+    //  =====================tabs==========================
+
+    const tabs = () => {
+        const tabHeader = document.querySelector('.service-header'),
+              tab = tabHeader.querySelectorAll('.service-header-tab'),
+              tabContent = document.querySelectorAll('.service-tab');
+
+              const toggleTabContent = (index) => {
+                  for(let i = 0; i < tabContent.length; i++){
+                      if(index === i){
+                          tab[i].classList.add('active');
+                          tabContent[i].classList.remove('d-none');
+                        }else{
+                          tab[i].classList.remove('active');
+                          tabContent[i].classList.add('d-none');
+                      }
+                  }
+              }
+
+              tabHeader.addEventListener('click', (event) => {
+                  let target = event.target;
+
+                        console.log('target: ', target);
+                        target = target.closest('.service-header-tab');
+                        console.log('target: ', target);
+
+                        if(target){
+
+                            tab.forEach((item, index) => {
+
+                            if(item === target){
+                                toggleTabContent(index);
+                            }
+                        });
+                    }
+                
+            });
+
+    };
+
+    tabs();
 });
