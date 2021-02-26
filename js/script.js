@@ -66,7 +66,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         });
         
-        // btnClose.addEventListener('click', handlerMenu);
+        btnClose.addEventListener('click', handlerMenu);
         
         menuItems.forEach((elem) => elem.addEventListener('click', handlerMenu));
         
