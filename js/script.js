@@ -81,8 +81,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 
                 left += 25;
                 popupContent.style.left = `${left}px`;
-                console.log('left: ', left);
-                console.log('left: ',typeof left);
                 
                 if(left >= (40 + window.innerWidth - popupContent.offsetWidth) / 2){
                     
@@ -117,4 +115,30 @@ window.addEventListener('DOMContentLoaded', () => {
     };
     
     togglePopUp();
+    //  =====================scroll==========================
 
+    const pageScroll = () => {
+
+        let links = document.querySelectorAll('a[href^="#"]');      
+        links.forEach((link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                let target = link.getAttribute('href').substring(1);
+                const scrollTo = document.getElementById(target);
+
+                const elemPosition = scrollTo.getBoundingClientRect().top;
+
+                window.scrollBy({
+                    top: elemPosition,
+                    behavior: "smooth"
+                });
+
+
+            });
+        }));
+
+    };
+
+    pageScroll();
+});
