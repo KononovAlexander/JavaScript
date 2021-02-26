@@ -66,57 +66,55 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     //  =====================popUp==========================
-
-const togglePopUp = () => {
-    const popup = document.querySelector('.popup'),
-          popupContent = popup.querySelector('.popup-content'),
-          popupBtn = document.querySelectorAll('.popup-btn'),
-          popupClose = document.querySelector('.popup-close');
-
-
-            function getAnimation(left){
-
-                const timer = setInterval(() => {
-                    
+    
+    const togglePopUp = () => {
+        const popup = document.querySelector('.popup'),
+        popupContent = popup.querySelector('.popup-content'),
+        popupBtn = document.querySelectorAll('.popup-btn'),
+        popupClose = document.querySelector('.popup-close');
+        
+        
+        function getAnimation(){
+            let left = window.innerWidth - window.innerWidth;
+            popupContent.style.left = `${left}px`;
+            const timer = setInterval(() => {
+                
                 left += 25;
                 popupContent.style.left = `${left}px`;
                 console.log('left: ', left);
                 console.log('left: ',typeof left);
                 
                 if(left >= (40 + window.innerWidth - popupContent.offsetWidth) / 2){
-                
+                    
                     clearTimeout(timer);
                 }
             }, 8);
+            
+        }
+        
+        popupBtn.forEach((elem) => {
+            
+            elem.addEventListener('click', () => {
            
-            }
-                
-            popupBtn.forEach((elem) => {
-
-                elem.addEventListener('click', () => {
+                if(window.innerWidth > 768){
                     
-                    if(window.innerWidth > 768){
-
-                        popup.style.display = 'block';
-
-                        let left = window.innerWidth - (window.innerWidth );
-                        popupContent.style.left = `${left}px`;
-                        getAnimation(left);
-
-                    }else{
-
-                        popup.style.display = 'block';
-                    }
-                });
-                 
+                    popup.style.display = 'block';
+                    getAnimation();
+                    
+                }else{
+                    
+                    popup.style.display = 'block';
+                }
+            });
+            
         });
-                      
-          popupClose.addEventListener('click', () => {
+        
+        popupClose.addEventListener('click', () => {
             popup.style.display = 'none';
             
         });
+        
+    };
+    
+    togglePopUp();
 
-};
-
-togglePopUp();
-});
