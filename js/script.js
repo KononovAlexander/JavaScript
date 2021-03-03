@@ -403,7 +403,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 target.value = target.value.replace(/[а-яА-Я\+"%/&?#$(){}]/g, '');
             }else if(target.matches('#form2-phone')){
                 
-                target.value = target.value.replace(/[=?/{}^#@"'<>!.:;,]\D/g, '');
+                target.value = target.value.replace(/[=?/{}^#@"'<>!.:;,]|\D/g, '');
+                // target.value = target.value.replace(/\D/g, '');
                 }
             });
         });
