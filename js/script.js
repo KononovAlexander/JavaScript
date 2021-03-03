@@ -342,7 +342,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 let target = event.target;
                 if(item === target){
-                    target.src = target.dataset.img
+                    target.src = target.dataset.img;
 
                 }
                 
@@ -359,10 +359,57 @@ window.addEventListener('DOMContentLoaded', () => {
         };
     fotoToggler();
 
-        //  =====================formControl==========================
-        const calculator = document.querySelector('.calc-block');
+        //  =====================calculator==========================
+        const calc = (price = 100) => {
+        const calcBlock = document.querySelector('.calc-block'),
+              calcType = document.querySelector('.calc-type'),
+              calcSquare = document.querySelector('.calc-square'),
+              calcDay = document.querySelector('.calc-day'),
+              caclCount = document.querySelector('.calc-count'),
+              totalValue = document.getElementById('total');
 
-        calculator.addEventListener('input', (event) => {
+        const countSum = () => {
+            let total = 0,
+            countValue = 1,
+            dayValue = 1;
+
+            const typeValue = calcType.options[calcType.selectedIndex].value,
+            squareValue = +calcSquare.value;
+
+
+
+                if(caclCount.value > 1){
+                    countValue += (caclCount.value - 1) / 10;
+                    console.log('countValue: ', countValue);
+                }
+
+                if(calcDay.value && calcDay.value < 5){
+                    dayValue *= 2;
+                    console.log('dayValue: ', dayValue);
+                }else if(calcDay.value && calcDay.value < 10){
+                    dayValue *= 1.5;
+                    console.log('dayValue: ', dayValue);
+                }
+
+                if(typeValue && squareValue){
+                    total = price * typeValue * squareValue * countValue * dayValue; 
+                }
+
+            totalValue.textContent = total ;
+        };
+        
+        calcBlock.addEventListener('change', (event) => {
+            let target = event.target;
+
+            if(target.matches('select') || target.matches('input')){
+                console.log('target: ', target);
+                countSum(); 
+            }
+        });    
+
+
+
+        calcBlock.addEventListener('input', (event) => {
             let target = event.target;
 
             
@@ -374,40 +421,74 @@ window.addEventListener('DOMContentLoaded', () => {
         
 
         });
+    };
+    calc(100);
+        //  =====================formValidation==========================
         const formControl = () => {
-            const contactForm = document.getElementById('form2');
-            const inputs = contactForm.querySelectorAll('input');
+
+            const mainForm = document.getElementById('form1'),
+                  contactForm = document.getElementById('form2'),
+                  inputs = document.querySelectorAll('input');
 
             inputs.forEach((input) => {
-            input.addEventListener('blur', (event) => {
+                
+            input.addEventListener('input', (event) => {
                 let target = event.target;
                 console.log('event: ', event);
 
-            if(target.closest('#form2-name')){
+            if(target.closest('#form1-name') || 
+            target.closest('#form2-name') || 
+            target.closest('#form3-name')){
 
             target.value = target.value.replace(/[a-zA-Z0-9]/g, '');
-            target.value = target.value.replace(/ +/g, ' ').trim();
-            target.value = target.value.replace(/^-+|-+$/g, '').trim();
-            target.value = target.value.replace(/-+/g, '-').trim();
-            target.value = target.value.replace(/(.|\s'')/g, function(a) {return a.toLowerCase();});
-            target.value = target.value.trim().replace(/(^|\s)\S/g, function(a) {return a.toUpperCase();});
+           
             
+            }else if(target.matches('#form2-message')){
+          
+                target.value = target.value.replace(/[a-zA-Z0-9]/g, '');
+
+            }else if(target.closest('#form1-email') || 
+            target.closest('#form2-email') || 
+            target.closest('#form3-email')){
+                
+                target.value = target.value.replace(/[а-яА-ЯЁё\+"%/&?#$(){}]/g, '');
+            }else if(target.closest('#form1-phone') || 
+            target.closest('#form2-phone') || 
+            target.closest('#form3-phone')){
+                
+                target.value = target.value.replace(/[=?/{}^#@"'<>!.:;,]|\D/g, '');
+            
+                }
+            });
+        });
+
+        inputs.forEach((input) =>{
+
+            input.addEventListener('blur', (event) => {
+                let target = event.target;
+
+                if(target.closest('#form1-name') || 
+            target.closest('#form2-name') || 
+            target.closest('#form3-name')){
+                target.value = target.value.replace(/ +/g, ' ').trim();
+                // target.value = target.value.replace(/^-+|-+$/g, '').trim();
+                target.value = target.value.replace(/-+/g, '').trim();
+                target.value = target.value.replace(/(.|\s'')/g, function(a) {return a.toLowerCase();});
+                target.value = target.value.trim().replace(/(^|\s)\S/g, function(a) {return a.toUpperCase();});
             }else if(target.matches('#form2-message')){
                 target.value = target.value.replace(/ +/g, ' ').trim();
                 target.value = target.value.replace(/^-+|-+$/g, '').trim();
                 target.value = target.value.replace(/-+/g, '-').trim();
-                target.value = target.value.replace(/[a-zA-Z0-9]/g, '');
+            }
 
-            }else if(target.matches('#form2-email')){
-                
-                target.value = target.value.replace(/[а-яА-Я\+"%/&?#$(){}]/g, '');
-            }else if(target.matches('#form2-phone')){
-                
-                target.value = target.value.replace(/[=?/{}^#@"'<>!.:;,]|\D/g, '');
-                // target.value = target.value.replace(/\D/g, '');
-                }
             });
+
         });
+
+
+
+
+
             
         };
         formControl();
