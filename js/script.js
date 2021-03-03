@@ -253,7 +253,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 prevSlide(slide, currentSlide, 'portfolio-item-active');
                 prevSlide(dot, currentSlide, 'dot-active');
-                // console.log('dot: ', dot);
                 currentSlide ++;
                 
                 if(currentSlide >= slide.length){
@@ -325,8 +324,90 @@ window.addEventListener('DOMContentLoaded', () => {
             });
 
             
-            startSlide(1500);
+            startSlide(5500);
         };
 
     slider();
+
+        //  =====================fotoToggler==========================
+
+        
+        const fotoToggler = () =>{
+            const img = document.querySelectorAll('.command__photo');
+
+            img.forEach((item) => {    
+                let str = item.src;
+                
+                item.addEventListener('mouseover', (event) => {
+
+                let target = event.target;
+                if(item === target){
+                    target.src = target.dataset.img
+
+                }
+                
+            });
+            
+            
+            item.addEventListener('mouseout', (event) =>{
+                let target = event.target;
+                
+                target.src = str;
+            });
+         });
+
+        };
+    fotoToggler();
+
+        //  =====================formControl==========================
+        const calculator = document.querySelector('.calc-block');
+
+        calculator.addEventListener('input', (event) => {
+            let target = event.target;
+
+            
+            if(target.matches('.calc-item')) {
+
+                target.value = target.value.replace(/\D/g, '');
+
+            } 
+        
+
+        });
+        const formControl = () => {
+            const contactForm = document.getElementById('form2');
+            const inputs = contactForm.querySelectorAll('input');
+
+            inputs.forEach((input) => {
+            input.addEventListener('blur', (event) => {
+                let target = event.target;
+                console.log('event: ', event);
+
+            if(target.closest('#form2-name')){
+
+            target.value = target.value.replace(/[a-zA-Z0-9]/g, '');
+            target.value = target.value.replace(/ +/g, ' ').trim();
+            target.value = target.value.replace(/^-+|-+$/g, '').trim();
+            target.value = target.value.replace(/-+/g, '-').trim();
+            target.value = target.value.replace(/(.|\s'')/g, function(a) {return a.toLowerCase();});
+            target.value = target.value.trim().replace(/(^|\s)\S/g, function(a) {return a.toUpperCase();});
+            
+            }else if(target.matches('#form2-message')){
+                target.value = target.value.replace(/ +/g, ' ').trim();
+                target.value = target.value.replace(/^-+|-+$/g, '').trim();
+                target.value = target.value.replace(/-+/g, '-').trim();
+                target.value = target.value.replace(/[a-zA-Z0-9]/g, '');
+
+            }else if(target.matches('#form2-email')){
+                
+                target.value = target.value.replace(/[а-яА-Я\+"%/&?#$(){}]/g, '');
+            }else if(target.matches('#form2-phone')){
+                
+                target.value = target.value.replace(/[=?/{}^#@"'<>!.:;,]\D/g, '');
+                }
+            });
+        });
+            
+        };
+        formControl();
 });
