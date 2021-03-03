@@ -360,6 +360,7 @@ window.addEventListener('DOMContentLoaded', () => {
     fotoToggler();
 
         //  =====================calculator==========================
+        
         const calc = (price = 100) => {
         const calcBlock = document.querySelector('.calc-block'),
               calcType = document.querySelector('.calc-type'),
@@ -407,8 +408,6 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });    
 
-
-
         calcBlock.addEventListener('input', (event) => {
             let target = event.target;
 
@@ -418,8 +417,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 target.value = target.value.replace(/\D/g, '');
 
             } 
-        
-
+    
         });
     };
     calc(100);
@@ -471,7 +469,6 @@ window.addEventListener('DOMContentLoaded', () => {
             target.closest('#form2-name') || 
             target.closest('#form3-name')){
                 target.value = target.value.replace(/ +/g, ' ').trim();
-                // target.value = target.value.replace(/^-+|-+$/g, '').trim();
                 target.value = target.value.replace(/-+/g, '').trim();
                 target.value = target.value.replace(/(.|\s'')/g, function(a) {return a.toLowerCase();});
                 target.value = target.value.trim().replace(/(^|\s)\S/g, function(a) {return a.toUpperCase();});
