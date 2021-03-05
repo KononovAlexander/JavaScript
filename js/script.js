@@ -88,6 +88,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 handlerMenu();
             }
+            if(target.closest('img[src="images/scroll.svg"]')){
+
+                pageScroll(target.parentNode);
+            }
 
             menuItems.forEach(item => {
 
@@ -411,12 +415,11 @@ window.addEventListener('DOMContentLoaded', () => {
         calcBlock.addEventListener('input', (event) => {
             let target = event.target;
 
-            
             if(target.matches('input')) {
 
                 target.value = target.value.replace(/\D/g, '');
 
-            } 
+            }
     
         });
     };
@@ -435,7 +438,7 @@ window.addEventListener('DOMContentLoaded', () => {
             target.closest('#form2-name') || 
             target.closest('#form3-name')){
 
-            target.value = target.value.replace(/[a-zA-Z0-9]/g, '');
+            target.value = target.value.replace(/[a-zA-Z0-9=+()*?:;№"!%$#@^<>/"']/g, '');
            
             
             }else if(target.matches('#form2-message')){
@@ -446,12 +449,12 @@ window.addEventListener('DOMContentLoaded', () => {
             target.closest('#form2-email') || 
             target.closest('#form3-email')){
                 
-                target.value = target.value.replace(/[а-яА-ЯЁё\+"%/&?#$(){}]/g, '');
+                target.value = target.value.replace(/[ а-яА-ЯЁё\+"%/&?#$(){}]/g, '');
             }else if(target.closest('#form1-phone') || 
             target.closest('#form2-phone') || 
             target.closest('#form3-phone')){
                 
-                target.value = target.value.replace(/[=?/{}^#@"'<>!.:;,]|\D/g, '');
+                target.value = target.value.replace(/[=?/{}^#@"'<>!.:;,A-Za-zа-яА-ЯЁё]/g, '');
             
                 }
             });
@@ -481,4 +484,70 @@ window.addEventListener('DOMContentLoaded', () => {
     
         };
         formControl();
+
+    //  =====================send-ajax-form==========================
+
+    const sendForm = () => {
+        const errorMessage = 'Что то пошло не так...',
+              loadMessage = 'Загрузка...',
+              successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+
+        const form = document.getElementById('form1');
+
+        const statusMessage = document.createElement('div');
+        statusMessage.style.cssText = 'font-size: 2rem;';
+
+        const postData = (body, outputData, errorData) => {
+            const request = new XMLHttpRequest();
+            request.addEventListener('readystatechange', () => {
+
+                if(request.readyState !== 4){
+                    return;
+                }
+
+                if(request.status === 200){
+                    outputData();
+                }else{
+                    errorData(request.status );
+                }
+            });
+
+            request.open('POST', './server.php');
+            request.setRequestHeader('Content-Type', 'application/json');
+
+           
+            console.log(body);
+            
+            request.send(JSON.stringify(body));
+        };
+
+
+        
+        console.log('form: ', form);
+        form.addEventListener('submit', (event) => {
+
+            console.log(1);
+            event.preventDefault();
+            statusMessage.textContent = loadMessage;
+            form.appendChild(statusMessage);
+            statusMessage.textContent = loadMessage;
+            const formData = new FormData(form);
+            let body = {};
+
+            formData.forEach((val, key) => {
+                body[key] = val;
+            });
+            postData(body, () => {
+                statusMessage.textContent = successMessage;
+            }, (error) => {
+                statusMessage.textContent = errorMessage;
+            });
+
+        
+          
+        });
+    
+
+    };
+    sendForm();
 });
