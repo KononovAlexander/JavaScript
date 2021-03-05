@@ -362,20 +362,21 @@ window.addEventListener('DOMContentLoaded', () => {
         //  =====================calculator==========================
         
         const calc = (price = 100) => {
-        const calcBlock = document.querySelector('.calc-block'),
-              calcType = document.querySelector('.calc-type'),
+            const calcBlock = document.querySelector('.calc-block');
+            const countSum = () => {
+        const calcType = document.querySelector('.calc-type'),
               calcSquare = document.querySelector('.calc-square'),
               calcDay = document.querySelector('.calc-day'),
               caclCount = document.querySelector('.calc-count'),
               totalValue = document.getElementById('total');
 
-        const countSum = () => {
             let total = 0,
             countValue = 1,
             dayValue = 1;
 
-            const typeValue = calcType.options[calcType.selectedIndex].value,
+            const typeValue = calcType.options[calcType.selectedIndex].value ,
             squareValue = +calcSquare.value;
+            console.log('calcType.selectedIndex: ', calcType.selectedIndex);
 
 
 
@@ -443,18 +444,19 @@ window.addEventListener('DOMContentLoaded', () => {
             
             }else if(target.matches('#form2-message')){
           
-                target.value = target.value.replace(/[a-zA-Z0-9]/g, '');
+                target.value = target.value.replace(/[a-zA-Z0-9+]/g, '');
 
             }else if(target.closest('#form1-email') || 
             target.closest('#form2-email') || 
             target.closest('#form3-email')){
                 
                 target.value = target.value.replace(/[а-яА-ЯЁё\+"%/&?#$(){}]/g, '');
+                target.value = target.value.replace(/ +/g, '');
             }else if(target.closest('#form1-phone') || 
             target.closest('#form2-phone') || 
             target.closest('#form3-phone')){
                 
-                target.value = target.value.replace(/[=?/{}^#@"'<>!.:;,]|\D/g, '');
+                target.value = target.value.replace(/[a-zA-Zа-яА-ЯёЁ{}_!&?.,;:'"*^%#$></=+]/g, '');
             
                 }
             });
