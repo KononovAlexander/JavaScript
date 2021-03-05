@@ -381,15 +381,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 if(caclCount.value > 1){
                     countValue += (caclCount.value - 1) / 10;
-                    console.log('countValue: ', countValue);
+
                 }
 
                 if(calcDay.value && calcDay.value < 5){
                     dayValue *= 2;
-                    console.log('dayValue: ', dayValue);
+
                 }else if(calcDay.value && calcDay.value < 10){
                     dayValue *= 1.5;
-                    console.log('dayValue: ', dayValue);
+
                 }
 
                 if(typeValue && squareValue){
@@ -403,7 +403,7 @@ window.addEventListener('DOMContentLoaded', () => {
             let target = event.target;
 
             if(target.matches('select') || target.matches('input')){
-                console.log('target: ', target);
+
                 countSum(); 
             }
         });    
@@ -412,7 +412,7 @@ window.addEventListener('DOMContentLoaded', () => {
             let target = event.target;
 
             
-            if(target.matches('.calc-item')) {
+            if(target.matches('input')) {
 
                 target.value = target.value.replace(/\D/g, '');
 
@@ -430,7 +430,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 
             input.addEventListener('input', (event) => {
                 let target = event.target;
-                console.log('event: ', event);
 
             if(target.closest('#form1-name') || 
             target.closest('#form2-name') || 
