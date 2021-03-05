@@ -424,9 +424,7 @@ window.addEventListener('DOMContentLoaded', () => {
         //  =====================formValidation==========================
         const formControl = () => {
 
-            const mainForm = document.getElementById('form1'),
-                  contactForm = document.getElementById('form2'),
-                  inputs = document.querySelectorAll('input');
+            const inputs = document.querySelectorAll('input');
 
             inputs.forEach((input) => {
                 
@@ -481,12 +479,7 @@ window.addEventListener('DOMContentLoaded', () => {
             });
 
         });
-
-
-
-
-
-            
+    
         };
         formControl();
 });
