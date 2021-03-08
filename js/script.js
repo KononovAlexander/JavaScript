@@ -81,21 +81,22 @@ window.addEventListener('DOMContentLoaded', () => {
         };      
 
         body.addEventListener('click', (event) => {
-            event.preventDefault();
             let target = event.target;
-
+            
             if(target.closest('.close-btn') || target.closest('.menu')){
-
+                
                 handlerMenu();
             }
             if(target.closest('img[src="images/scroll.svg"]')){
-
+                event.preventDefault();
+                
                 pageScroll(target.parentNode);
             }
-
+            
             menuItems.forEach(item => {
-
+                
                 if(item === target){
+                    event.preventDefault();
                     handlerMenu();
                     pageScroll(item);
 
@@ -492,7 +493,7 @@ window.addEventListener('DOMContentLoaded', () => {
               loadMessage = 'Загрузка...',
               successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
 
-        const form = document.getElementById('form1');
+        const forms = document.querySelectorAll('form');
 
         const statusMessage = document.createElement('div');
         statusMessage.style.cssText = 'font-size: 2rem;';
@@ -515,37 +516,37 @@ window.addEventListener('DOMContentLoaded', () => {
             request.open('POST', './server.php');
             request.setRequestHeader('Content-Type', 'application/json');
 
-           
-            console.log(body);
-            
             request.send(JSON.stringify(body));
         };
 
 
         
-        console.log('form: ', form);
-        form.addEventListener('submit', (event) => {
 
-            console.log(1);
+        forms.forEach((form) => {
+        form.addEventListener('submit', (event) => {
             event.preventDefault();
+            let target = event.target;
+
             statusMessage.textContent = loadMessage;
-            form.appendChild(statusMessage);
+            target.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;
-            const formData = new FormData(form);
+            const formData = new FormData(target);
             let body = {};
 
             formData.forEach((val, key) => {
                 body[key] = val;
             });
+
+
             postData(body, () => {
                 statusMessage.textContent = successMessage;
             }, (error) => {
+                console.log('error: ', error);
                 statusMessage.textContent = errorMessage;
             });
 
-        
-          
         });
+    });
     
 
     };
