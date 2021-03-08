@@ -7,6 +7,9 @@ window.addEventListener('DOMContentLoaded', () => {
         let timeHours = document.querySelector('#timer-hours'),
             timeMinutes = document.querySelector('#timer-minutes'),
             timeSeconds = document.querySelector('#timer-seconds');
+            timeHours.textContent = '00';
+            timeMinutes.textContent = '00';
+            timeSeconds.textContent = '00';
 
         function getTimeRemaining(){
 
@@ -44,7 +47,7 @@ window.addEventListener('DOMContentLoaded', () => {
         
     };
 
-    countTimer('24 february 2021');
+    countTimer('8 march 2021');
 
   //  =====================scroll==========================
 
@@ -440,17 +443,16 @@ window.addEventListener('DOMContentLoaded', () => {
             target.closest('#form3-name')){
 
             target.value = target.value.replace(/[a-zA-Z0-9=+()*?:;№"!%$#@^<>/"']/g, '');
-           
-            
+               
             }else if(target.matches('#form2-message')){
           
-                target.value = target.value.replace(/[a-zA-Z0-9]/g, '');
+                target.value = target.value.replace(/[a-zA-Z+=(){}%^#@<>]/g, '');
 
             }else if(target.closest('#form1-email') || 
             target.closest('#form2-email') || 
             target.closest('#form3-email')){
                 
-                target.value = target.value.replace(/[ а-яА-ЯЁё\+"%/&?#$(){}]/g, '');
+                target.value = target.value.replace(/[ а-яА-ЯЁё\-+"%/&?#$(){}]/g, '');
             }else if(target.closest('#form1-phone') || 
             target.closest('#form2-phone') || 
             target.closest('#form3-phone')){
@@ -489,11 +491,11 @@ window.addEventListener('DOMContentLoaded', () => {
     //  =====================send-ajax-form==========================
 
     const sendForm = () => {
+        const forms = document.querySelectorAll('form');
         const errorMessage = 'Что то пошло не так...',
               loadMessage = 'Загрузка...',
               successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
 
-        const forms = document.querySelectorAll('form');
 
         const statusMessage = document.createElement('div');
         statusMessage.style.cssText = 'font-size: 2rem;';
@@ -526,12 +528,33 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         };
 
+        const formValid = (inputs, body) => {
+            let count = 0; 
+            inputs.forEach((input) =>{
+               if(input.value){
+                    count++;
+                    console.log('count: ', count);
+                    
+               }
+               if(count === 3){
+                   console.log(2);
+                   postData(body, () => {
+                    statusMessage.textContent = successMessage;
+                    clearInputs(inputs);
+                }, (error) => {
+                    console.log('error: ', error);
+                    statusMessage.textContent = errorMessage;
+                });
+               }
+            });
+        };
+
         
         forms.forEach((form) => {
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             let target = event.target;
-        
+            
             statusMessage.textContent = loadMessage;
             target.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;
@@ -541,14 +564,9 @@ window.addEventListener('DOMContentLoaded', () => {
             formData.forEach((val, key) => {
                 body[key] = val;
             });
-
-            postData(body, () => {
-                statusMessage.textContent = successMessage;
-                clearInputs(target.querySelectorAll('input'));
-            }, (error) => {
-                console.log('error: ', error);
-                statusMessage.textContent = errorMessage;
-            });
+            
+            formValid(target.querySelectorAll('input'), body);
+           
             
                
 
