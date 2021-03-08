@@ -517,33 +517,40 @@ window.addEventListener('DOMContentLoaded', () => {
             request.setRequestHeader('Content-Type', 'application/json');
 
             request.send(JSON.stringify(body));
+            
         };
 
+        const clearInputs = (inputs) => {
+            inputs.forEach((input) =>{
+                input.value = '';
+            });
+        };
 
         
-
         forms.forEach((form) => {
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             let target = event.target;
-
+        
             statusMessage.textContent = loadMessage;
             target.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;
             const formData = new FormData(target);
             let body = {};
-
+            
             formData.forEach((val, key) => {
                 body[key] = val;
             });
 
-
             postData(body, () => {
                 statusMessage.textContent = successMessage;
+                clearInputs(target.querySelectorAll('input'));
             }, (error) => {
                 console.log('error: ', error);
                 statusMessage.textContent = errorMessage;
             });
+            
+               
 
         });
     });
