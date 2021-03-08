@@ -494,6 +494,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const forms = document.querySelectorAll('form');
         const errorMessage = 'Что то пошло не так...',
               loadMessage = 'Загрузка...',
+              alertMessage = 'Необходимо заполнить все поля!',
               successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
 
 
@@ -505,6 +506,7 @@ window.addEventListener('DOMContentLoaded', () => {
             request.addEventListener('readystatechange', () => {
 
                 if(request.readyState !== 4){
+                    statusMessage.textContent = loadMessage;
                     return;
                 }
 
@@ -531,20 +533,23 @@ window.addEventListener('DOMContentLoaded', () => {
         const formValid = (inputs, body) => {
             let count = 0; 
             inputs.forEach((input) =>{
-               if(input.value){
-                    count++;
-                    console.log('count: ', count);
+                if(input.value){
+                            count++;
+                            console.log('count: ', count);
                     
-               }
-               if(count === 3){
-                   console.log(2);
+                       }
+                if(count === inputs.length){                   
                    postData(body, () => {
-                    statusMessage.textContent = successMessage;
-                    clearInputs(inputs);
-                }, (error) => {
-                    console.log('error: ', error);
-                    statusMessage.textContent = errorMessage;
-                });
+                        statusMessage.textContent = successMessage;
+                        clearInputs(inputs);
+                }, 
+                    (error) => {
+                        console.log('error: ', error);
+                        statusMessage.textContent = errorMessage;
+                    });
+                }else{
+                   statusMessage.textContent = alertMessage;
+
                }
             });
         };
@@ -555,9 +560,7 @@ window.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             let target = event.target;
             
-            statusMessage.textContent = loadMessage;
             target.appendChild(statusMessage);
-            statusMessage.textContent = loadMessage;
             const formData = new FormData(target);
             let body = {};
             
