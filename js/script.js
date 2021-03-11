@@ -502,6 +502,7 @@ window.addEventListener('DOMContentLoaded', () => {
         statusMessage.style.cssText = 'font-size: 2rem;';
 
         const postData = (body, outputData, errorData) => {
+            
             const request = new XMLHttpRequest();
             request.addEventListener('readystatechange', () => {
 
