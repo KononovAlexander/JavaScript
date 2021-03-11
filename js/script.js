@@ -497,14 +497,12 @@ window.addEventListener('DOMContentLoaded', () => {
               alertMessage = 'Необходимо заполнить все поля!',
               successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
 
-
         const statusMessage = document.createElement('div');
         statusMessage.style.cssText = 'font-size: 2rem;';
 
         const postData = (requestBody) => {
             const request = new XMLHttpRequest();
             return new Promise((resolve, reject) => {
-                setTimeout(() => {
 
                     request.addEventListener('readystatechange', () => {
     
@@ -524,59 +522,40 @@ window.addEventListener('DOMContentLoaded', () => {
                     request.open('POST', './server.php');
                     request.setRequestHeader('Content-Type', 'application/json');
                     request.send(JSON.stringify(requestBody));
-                    
-                }, 0);
               
-                    
             });  
         };
-
-        // const clearInputs = (inputs) => {
-        //     inputs.forEach((input) =>{
-        //         input.value = '';
-        //     });
-        // };
-
-        const formValid = (inputs, body) => {
-            let count = 0; 
-            inputs.forEach((input) =>{
-                if(input.value){
-                            count++;
-                            console.log('count: ', count);
-                }
-
-                if(count === inputs.length){ 
-                   postData(body)
-                   .then(inputs.forEach((input) =>{
-                    input.value = '';
-                }))
-                   .catch(statusMessage.textContent = errorMessage);
-                }else{
-                   statusMessage.textContent = alertMessage;
-
-               }
-            });
-        };
-
-        
+ 
         forms.forEach((form) => {
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             let target = event.target;
+            const inputs =  target.querySelectorAll('input');
+            inputs.forEach((input) => {
+                input.setAttribute('required', 'true');
+            });
             
             target.appendChild(statusMessage);
             const formData = new FormData(target);
             let body = {};
             
             formData.forEach((val, key) => {
-                body[key] = val;
-            });
+                if(val){
+                    body[key] = val;
+                }
+        });
+
+        if(Object.keys(body).length === inputs.length){
+            postData(body)
+            .then(inputs.forEach((input) =>{
+             input.value = '';
+         }));
+        }else{
+            statusMessage.textContent = alertMessage;
+        }
             
-            formValid(target.querySelectorAll('input'), body);
-           
         });
     });
-    
 
     };
     sendForm();
