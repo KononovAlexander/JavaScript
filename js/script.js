@@ -531,9 +531,6 @@ window.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             let target = event.target;
             const inputs =  target.querySelectorAll('input');
-            inputs.forEach((input) => {
-                input.setAttribute('required', 'true');
-            });
             
             target.appendChild(statusMessage);
             const formData = new FormData(target);
