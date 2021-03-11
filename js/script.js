@@ -501,35 +501,41 @@ window.addEventListener('DOMContentLoaded', () => {
         const statusMessage = document.createElement('div');
         statusMessage.style.cssText = 'font-size: 2rem;';
 
-        const postData = (body, outputData, errorData) => {
-            
+        const postData = (requestBody) => {
             const request = new XMLHttpRequest();
-            request.addEventListener('readystatechange', () => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
 
-                if(request.readyState !== 4){
-                    statusMessage.textContent = loadMessage;
-                    return;
-                }
+                    request.addEventListener('readystatechange', () => {
+    
+                        if(request.readyState !== 4){
+                            statusMessage.textContent = loadMessage;
+                            return;
+                        }
+    
+                        if(request.status === 200){
+                       
+                            resolve(statusMessage.textContent = successMessage);
+                        }else{
+                            reject(statusMessage.textContent = errorMessage);
+                        }
+                    });
 
-                if(request.status === 200){
-                    outputData();
-                }else{
-                    errorData(request.status );
-                }
-            });
-
-            request.open('POST', './server.php');
-            request.setRequestHeader('Content-Type', 'application/json');
-
-            request.send(JSON.stringify(body));
-            
+                    request.open('POST', './server.php');
+                    request.setRequestHeader('Content-Type', 'application/json');
+                    request.send(JSON.stringify(requestBody));
+                    
+                }, 0);
+              
+                    
+            });  
         };
 
-        const clearInputs = (inputs) => {
-            inputs.forEach((input) =>{
-                input.value = '';
-            });
-        };
+        // const clearInputs = (inputs) => {
+        //     inputs.forEach((input) =>{
+        //         input.value = '';
+        //     });
+        // };
 
         const formValid = (inputs, body) => {
             let count = 0; 
@@ -537,17 +543,14 @@ window.addEventListener('DOMContentLoaded', () => {
                 if(input.value){
                             count++;
                             console.log('count: ', count);
-                    
-                       }
-                if(count === inputs.length){                   
-                   postData(body, () => {
-                        statusMessage.textContent = successMessage;
-                        clearInputs(inputs);
-                }, 
-                    (error) => {
-                        console.log('error: ', error);
-                        statusMessage.textContent = errorMessage;
-                    });
+                }
+
+                if(count === inputs.length){ 
+                   postData(body)
+                   .then(inputs.forEach((input) =>{
+                    input.value = '';
+                }))
+                   .catch(statusMessage.textContent = errorMessage);
                 }else{
                    statusMessage.textContent = alertMessage;
 
@@ -571,9 +574,6 @@ window.addEventListener('DOMContentLoaded', () => {
             
             formValid(target.querySelectorAll('input'), body);
            
-            
-               
-
         });
     });
     
