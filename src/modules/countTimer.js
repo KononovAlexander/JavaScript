@@ -2,10 +2,7 @@ const countTimer = (deadline) => {
     let timeHours = document.querySelector('#timer-hours'),
         timeMinutes = document.querySelector('#timer-minutes'),
         timeSeconds = document.querySelector('#timer-seconds');
-        timeHours.textContent = '00';
-        timeMinutes.textContent = '00';
-        timeSeconds.textContent = '00';
-
+ 
     function getTimeRemaining(){
 
         let dateStop = new Date(deadline).getTime(),
@@ -38,7 +35,7 @@ const countTimer = (deadline) => {
                 clearInterval(updateClock);
 
             }
-    }, 1000);
+    }, 0);
     
 };
 export default countTimer;

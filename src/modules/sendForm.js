@@ -48,7 +48,10 @@ const sendForm = () => {
                         statusMessage.textContent = successMessage;
                 })
                 .then(inputs.forEach((input) =>{
-                    input.value = '';
+                    setTimeout(() =>{
+                        input.value = '';
+
+                    }, 2000);
                 }))
                 .catch((error) => {
                     statusMessage.textContent = errorMessage;
