@@ -509,30 +509,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 credentials: 'include'
                 
             });
-            
-            // const request = new XMLHttpRequest();
-            // return new Promise((resolve, reject) => {
 
-            //         request.addEventListener('readystatechange', () => {
-    
-            //             if(request.readyState !== 4){
-            //                 statusMessage.textContent = loadMessage;
-            //                 return;
-            //             }
-    
-            //             if(request.status === 200){
-                       
-            //                 resolve(statusMessage.textContent = successMessage);
-            //             }else{
-            //                 reject(statusMessage.textContent = errorMessage);
-            //             }
-            //         });
-
-            //         request.open('POST', './server.php');
-            //         request.setRequestHeader('Content-Type', 'application/json');
-            //         request.send(JSON.stringify(requestBody));
-              
-            // });  
         };
  
         forms.forEach((form) => {
