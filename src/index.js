@@ -11,7 +11,7 @@ import formControl from './modules/formControl';
 import sendForm from './modules/sendForm'; 
 
 //===================timer=========================
-countTimer('16 march 2021');
+countTimer('17 march 2021');
 
 //=====================scroll======================
 pageScroll();

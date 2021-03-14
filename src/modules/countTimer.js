@@ -14,8 +14,9 @@ const countTimer = (deadline) => {
         return {timeRemaining, hours, minutes, seconds};
 
     }
+  
 
-    const updateClock = setInterval(function(){
+    const updateClock = () => {
         let timer = getTimeRemaining();    
         
             timer.hours >= 10 ? timeHours.textContent = timer.hours : 
@@ -32,10 +33,18 @@ const countTimer = (deadline) => {
                 timeHours.textContent = '00';
                 timeMinutes.textContent = '00';
                 timeSeconds.textContent = '00';
-                clearInterval(updateClock);
+                clearInterval(callTimer);
 
             }
-    }, 0);
-    
+    };
+
+    const callTimer = () => {
+        setInterval(() => {
+            updateClock();
+        },1000);
+    };
+   
+    updateClock();
+    callTimer();
 };
 export default countTimer;
