@@ -22,12 +22,15 @@ const sendForm = () => {
 
     };
 
-    const showMessage = (message) =>{
+    const showMessage = (block, message, time) =>{
         clearTimeout(showMessage);
+
+        block.appendChild(statusMessage);
         statusMessage.textContent = message;
+
         setTimeout(() => {
             statusMessage.textContent = '';
-        }, 3000);
+        }, time);
         
     };
 
@@ -35,11 +38,9 @@ const sendForm = () => {
     form.addEventListener('submit', (event) => {
         event.preventDefault();
         let target = event.target;
-        const inputs =  target.querySelectorAll('input');
-        
-        target.appendChild(statusMessage);
-
-      
+        const inputs = target.querySelectorAll('input'),
+              inputName =  target.querySelector('input[type="text"]'),
+              inputTel =  target.querySelector('input[type="tel"]');
 
         const formData = new FormData(target);
         let body = {};
@@ -52,16 +53,16 @@ const sendForm = () => {
 
         if(Object.keys(body).length === inputs.length){
 
-            if(inputs[0].value.length > 2 && inputs[2].value.replace(/ /g, '').length < 12 && inputs[2].value.replace(/ /g, '').length > 7) {
+            if(inputName.value.length > 2 && inputTel.value.replace(/ /g, '').length < 12 && inputTel.value.replace(/ /g, '').length > 7) {
                 
-                showMessage(loadMessage);
+               showMessage(target, loadMessage, 10000);
                 postData(body)
                 .then((response) => {
  
                     if(response.status !== 200){
                         throw new Error('network status is not 200');
                     }
-                    showMessage(successMessage);
+                    showMessage(target, successMessage, 3000);
                     
                 })
                 .then(inputs.forEach((input) =>{
@@ -74,16 +75,16 @@ const sendForm = () => {
                     document.querySelector('.popup').style.display = 'none';
                 }, 5000))
                 .catch((error) => {
-                    showMessage(errorMessage);
+                    showMessage(target, errorMessage, 3000);
                     console.log(error);
                 });
             }else{
 
-                showMessage(strMessage);
+                showMessage(target, strMessage, 3000);
             }
 
         }else{
-           showMessage(alertMessage);
+           showMessage(target, alertMessage, 3000);
         }
         
     });
