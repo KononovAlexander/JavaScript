@@ -22,6 +22,15 @@ const sendForm = () => {
 
     };
 
+    const showMessage = (message) =>{
+        clearTimeout(showMessage);
+        statusMessage.textContent = message;
+        setTimeout(() => {
+            statusMessage.textContent = '';
+        }, 3000);
+        
+    };
+
     forms.forEach((form) => {
     form.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -30,9 +39,7 @@ const sendForm = () => {
         
         target.appendChild(statusMessage);
 
-        setInterval(() => {
-            target.appendChild(statusMessage).remove();
-        }, 3000);
+      
 
         const formData = new FormData(target);
         let body = {};
@@ -47,15 +54,14 @@ const sendForm = () => {
 
             if(inputs[0].value.length > 2 && inputs[2].value.replace(/ /g, '').length < 12 && inputs[2].value.replace(/ /g, '').length > 7) {
                 
+                showMessage(loadMessage);
                 postData(body)
-                .then(statusMessage.textContent = loadMessage)
                 .then((response) => {
-                    console.log('response.type: ', response.type);
-                    
+ 
                     if(response.status !== 200){
                         throw new Error('network status is not 200');
                     }
-                    statusMessage.textContent = successMessage;
+                    showMessage(successMessage);
                     
                 })
                 .then(inputs.forEach((input) =>{
@@ -68,16 +74,16 @@ const sendForm = () => {
                     document.querySelector('.popup').style.display = 'none';
                 }, 5000))
                 .catch((error) => {
-                    statusMessage.textContent = errorMessage;
+                    showMessage(errorMessage);
                     console.log(error);
                 });
             }else{
 
-                statusMessage.textContent = strMessage;
+                showMessage(strMessage);
             }
 
         }else{
-            statusMessage.textContent = alertMessage;
+           showMessage(alertMessage);
         }
         
     });
